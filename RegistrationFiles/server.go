@@ -67,20 +67,15 @@ func registrationHandler(res http.ResponseWriter, req *http.Request) {
 	cookie:=http.Cookie{Name:"userName",Value:firstName+" "+lastName}
 	req.Header.Del("Cookie")
 	http.SetCookie(res,&cookie)
-	//req.Header.Set("Cookie","name="+firstName+" "+lastName+";value="+strconv.Itoa(len(firstName+lastName)))
+	req.Header.Set("Cookie",firstName+" "+lastName)
 	values := valueExtractor(res, req)
-	fmt.Println("==>",values[len(values)-3],"<==",req.Header.Get("Cookie"))
-	cookies:=res.Header().Get("Cookies")
-	fmt.Println("cookie length :",cookies)
-	//fmt.Println("first cookie",cookies[0])
-	//fmt.Println("second cookie",cookies[1])
-	//dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable",
-	//	DB_USER, DB_PASSWORD, DB_NAME)
-	//db, err := sql.Open("postgres", dbinfo)
-	//checkErr(err)
-	//row, err := db.Query("INSERT INTO employe(firstName,lastName,Gender,E_mail,Address1,Address2,UserId,DateOfCreation,Referer,RequestMethod,RemoteAddress,RequestCookies,Host,UserAgent)values('" + values[0] + "','" + values[1] + "','" + values[2] + "','" + values[3] + "','" + values[4] + "','" + values[5] + "','" + values[6] + "','" + values[7] + "','" + values[8] + "','" + values[9] + "','" + values[10] + "','" + values[11] + "','" + values[12] + "','" + values[13] + "');")
-	//checkErr(err)
-	//fmt.Println(row)
+	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable",
+		DB_USER, DB_PASSWORD, DB_NAME)
+	db, err := sql.Open("postgres", dbinfo)
+	checkErr(err)
+	row, err := db.Query("INSERT INTO employe(firstName,lastName,Gender,E_mail,Address1,Address2,UserId,DateOfCreation,Referer,RequestMethod,RemoteAddress,RequestCookies,Host,UserAgent)values('" + values[0] + "','" + values[1] + "','" + values[2] + "','" + values[3] + "','" + values[4] + "','" + values[5] + "','" + values[6] + "','" + values[7] + "','" + values[8] + "','" + values[9] + "','" + values[10] + "','" + values[11] + "','" + values[12] + "','" + values[13] + "');")
+	checkErr(err)
+	fmt.Println(row)
 }
 
 //func successHandler(res http.ResponseWriter, req *http.Request) {
